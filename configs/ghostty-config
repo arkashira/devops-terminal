@@ -1,0 +1,47 @@
+# devops-terminal Ghostty config — SRE/DevSecOps edition
+# Cmd+↑/↓ กระโดดระหว่าง prompt | Cmd+D split ขวา | Cmd+Shift+D split ล่าง
+# Cmd+Alt+ลูกศร ย้าย split | Cmd+Shift+Enter zoom split | Cmd+K clear
+# เอกสารทุก option: ghostty +show-config --default --docs
+
+### หน้าตา
+theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+font-family = JetBrainsMono Nerd Font
+font-size = 13
+window-height = 42
+window-width = 150
+window-padding-x = 6
+window-padding-y = 4
+macos-titlebar-style = tabs
+background-opacity = 0.94
+background-blur-radius = 20
+unfocused-split-opacity = 0.82
+mouse-hide-while-typing = true
+
+### clipboard สาย ops
+copy-on-select = clipboard
+clipboard-trim-trailing-spaces = true
+# กันวางคำสั่งหลายบรรทัดโดยไม่ตั้งใจ (ของ copy จากเว็บอาจซ่อน \n มา)
+clipboard-paste-protection = true
+# ให้ tmux/ssh ไกลๆ copy กลับมาลง clipboard เครื่องเราได้ (OSC52)
+clipboard-read = allow
+clipboard-write = allow
+
+### ความจุ/ความจำ
+scrollback-limit = 50000000
+window-save-state = always
+window-inherit-working-directory = true
+confirm-close-surface = true
+
+### shell + ssh integration
+macos-option-as-alt = true
+shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
+focus-follows-mouse = true
+
+### keybinds
+# Quick Terminal — Cmd+` จากแอปไหนก็ได้ (ครั้งแรกต้องอนุญาต Accessibility)
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+keybind = cmd+shift+j=write_scrollback_file:open
+keybind = shift+enter=text:\n
+
+# cursor มีแสง trail ตอนเลื่อน (GPU ล้วน) — ไม่ชอบก็คอมเมนต์บรรทัดนี้
+custom-shader = ~/.config/ghostty/shaders/cursor-trail.glsl

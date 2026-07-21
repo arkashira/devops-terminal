@@ -1,0 +1,80 @@
+% aws
+# สลับ AWS profile แบบ dropdown
+saws
+
+# ตอนนี้ login เป็นใคร account ไหน
+aws sts get-caller-identity --profile <profile>
+
+# tail CloudWatch log group สดๆ
+aws logs tail <log_group> --follow --profile <profile>
+
+# ECR login
+aws ecr get-login-password --profile <profile> | docker login --username AWS --password-stdin <account_id>.dkr.ecr.<region>.amazonaws.com
+
+# ดู EKS clusters ทั้งหมด
+aws eks list-clusters --profile <profile> --output table
+
+# ผูก EKS cluster เข้า kubeconfig
+aws eks update-kubeconfig --name <cluster> --profile <profile> --alias <cluster>
+
+% kubernetes
+# tail log หลาย pod พร้อมกันด้วย pattern (เทพกว่า kubectl logs)
+stern <pattern> -n <namespace>
+
+# tail log ทั้ง namespace
+stern . -n <namespace>
+
+# pod ไหน restart บ่อยสุด
+kubectl get pods -A --sort-by='.status.containerStatuses[0].restartCount' | tail -20
+
+# event ล่าสุดทั้ง cluster (หาสาเหตุ pod ตาย)
+kubectl get events -A --sort-by=.lastTimestamp | tail -30
+
+# watch pods แบบไฮไลท์การเปลี่ยนแปลง
+viddy kubectl get pods -n <namespace>
+
+# rollout restart deployment
+kubectl rollout restart deploy/<deployment> -n <namespace>
+
+# ดู resource ที่ pod ใช้จริง
+kubectl top pods -n <namespace> --sort-by=memory
+
+# สลับ cluster / namespace (dropdown)
+kubectx
+kubens
+
+% terraform
+# plan เฉพาะบาง resource
+terraform plan -target=<resource_address>
+
+# format + validate ทั้งโปรเจกต์
+terraform fmt -recursive && terraform validate
+
+# สร้างเอกสาร module อัตโนมัติ
+terraform-docs markdown table . > README.md
+
+# ดู state ว่ามี resource อะไรบ้าง
+terraform state list
+
+% security (trivy)
+# สแกน image หา vuln ร้ายแรง
+trivy image --severity HIGH,CRITICAL <image>
+
+# สแกน IaC (terraform/k8s yaml) หา misconfiguration
+trivy config .
+
+# สแกนหา secret หลุดใน repo
+trivy fs --scanners secret .
+
+# สแกน k8s cluster (ต้องมี kubeconfig)
+trivy k8s --report summary
+
+% tmux
+# ติดตั้ง/อัปเดต plugins
+สั่งใน tmux: prefix + I
+
+# หยิบ token จากจอ (pod name, IP, hash)
+สั่งใน tmux: prefix + Tab
+
+# k9s popup
+สั่งใน tmux: prefix + k

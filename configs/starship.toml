@@ -1,0 +1,25 @@
+# starship config — DevOps multi-cloud
+# โมดูลอื่นๆ (git, nodejs, python, docker ฯลฯ) เปิดอยู่แล้วโดย default
+
+# k8s context ปิดโดย default — เปิดเพราะใช้ EKS (กันยิงผิดคลัสเตอร์)
+[kubernetes]
+disabled = false
+format = '[⎈ $context( \($namespace\))]($style) '
+style = 'cyan bold'
+
+# โชว์เฉพาะตอน set AWS_PROFILE แล้วเท่านั้น (วงเล็บรอบนอก = conditional)
+[aws]
+format = '([aws:$profile]($style) )'
+style = 'bold fg:208'
+
+# ปิดไว้ — เปิดใหม่ได้ตอนกลับมาใช้ GCP (disabled = false)
+[gcloud]
+disabled = true
+
+[terraform]
+format = '[tf:$workspace]($style) '
+style = 'fg:105'
+
+# บอกว่าคำสั่งก่อนหน้ารันไปนานแค่ไหน (เกิน 2 วิ)
+[cmd_duration]
+min_time = 2000

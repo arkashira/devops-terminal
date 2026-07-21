@@ -1,0 +1,46 @@
+diff --git a/scripts/save.sh b/scripts/save.sh
+index 01edcde..2203d44 100755
+--- a/scripts/save.sh
++++ b/scripts/save.sh
+@@ -8,7 +8,9 @@ source "$CURRENT_DIR/spinner_helpers.sh"
+ 
+ # delimiters
+ d=$'\t'
+-delimiter=$'\t'
++# LOCAL PATCH (2026-07-21): tmux 3.7 แทน control chars ใน format output ด้วย '_'
++# เลยใช้ sentinel '@=@' ตอนขอข้อมูลจาก tmux แล้ว sed กลับเป็น TAB ที่ปลายทาง
++delimiter='@=@'
+ 
+ # if "quiet" script produces no output
+ SCRIPT_OUTPUT="$1"
+@@ -82,11 +84,11 @@ state_format() {
+ }
+ 
+ dump_panes_raw() {
+-	tmux list-panes -a -F "$(pane_format)"
++	tmux list-panes -a -F "$(pane_format)" | sed $'s/@=@/\t/g'
+ }
+ 
+ dump_windows_raw(){
+-	tmux list-windows -a -F "$(window_format)"
++	tmux list-windows -a -F "$(window_format)" | sed $'s/@=@/\t/g'
+ }
+ 
+ toggle_window_zoom() {
+@@ -160,6 +162,7 @@ dump_grouped_sessions() {
+ 	local current_session_group=""
+ 	local original_session
+ 	tmux list-sessions -F "$(grouped_sessions_format)" |
++		sed $'s/@=@/\t/g' |
+ 		grep "^1" |
+ 		cut -c 3- |
+ 		sort |
+@@ -215,7 +218,7 @@ dump_windows() {
+ }
+ 
+ dump_state() {
+-	tmux display-message -p "$(state_format)"
++	tmux display-message -p "$(state_format)" | sed $'s/@=@/\t/g'
+ }
+ 
+ dump_pane_contents() {
