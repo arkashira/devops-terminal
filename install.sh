@@ -32,11 +32,15 @@ fi
 # ---------- packages ----------
 log "ติดตั้ง packages (ข้ามตัวที่มีแล้ว)..."
 FORMULAS=(fzf fd bat eza zoxide atuin starship zsh-autosuggestions zsh-syntax-highlighting
-  tmux kubernetes-cli helm kubectx k9s stern kubecolor viddy yq jq direnv trivy terraform-docs navi glow gh)
+  tmux kubernetes-cli helm kubectx k9s stern kubecolor viddy yq jq direnv trivy terraform-docs navi glow gh
+  krew kubent popeye argocd kustomize lazygit git-delta dive lazydocker btop yazi
+  lnav fx jless xh trippy gping doggo hyperfine watchexec sops age mise just eksctl infracost)
 for f in "${FORMULAS[@]}"; do
   brew list "$f" >/dev/null 2>&1 || brew install "$f"
 done
-CASKS=(ghostty font-jetbrains-mono-nerd-font)
+# granted — สลับ AWS SSO role (official tap)
+brew list granted >/dev/null 2>&1 || brew install common-fate/granted/granted || warn "granted ติดตั้งไม่สำเร็จ"
+CASKS=(ghostty font-jetbrains-mono-nerd-font session-manager-plugin)
 for c in "${CASKS[@]}"; do
   brew list --cask "$c" >/dev/null 2>&1 || brew install --cask "$c" || warn "ติดตั้ง $c ไม่สำเร็จ (อาจมีอยู่แล้ว)"
 done
@@ -105,6 +109,25 @@ if [[ -f "$SAVE_SH" ]] && ! grep -q '@=@' "$SAVE_SH"; then
   else
     warn "patch ไม่เข้า (upstream อาจแก้แล้ว หรือโค้ดเปลี่ยน) — ข้าม"
   fi
+fi
+
+# ---------- krew plugins ----------
+if command -v kubectl >/dev/null 2>&1 && command -v kubectl-krew >/dev/null 2>&1; then
+  export PATH="$HOME/.krew/bin:$PATH"
+  kubectl krew update >/dev/null 2>&1 || true
+  for p in neat tree node-shell; do
+    kubectl krew list 2>/dev/null | grep -q "^$p$" || kubectl krew install "$p" >/dev/null 2>&1 || true
+  done
+  ok "krew plugins (neat/tree/node-shell) พร้อม"
+fi
+
+# ---------- delta เป็น git pager (เฉพาะยังไม่เคยตั้ง pager เอง) ----------
+if command -v delta >/dev/null 2>&1 && [[ -z "$(git config --global core.pager 2>/dev/null)" ]]; then
+  git config --global core.pager delta
+  git config --global interactive.diffFilter "delta --color-only"
+  git config --global delta.navigate true
+  git config --global delta.line-numbers true
+  ok "ตั้ง delta เป็น git pager แล้ว"
 fi
 
 # ---------- atuin: import history เดิม ----------

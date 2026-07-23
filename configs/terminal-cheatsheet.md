@@ -75,3 +75,28 @@
 | `trivy fs --scanners secret .` | หา secret หลุดใน repo |
 | `terraform-docs markdown table .` | gen เอกสาร module |
 | `glow <file.md>` | อ่าน markdown สวยๆ ในจอ |
+## 🚀 Pro tools (เพิ่ม 2026-07-23)
+| คำสั่ง | ทำอะไร |
+|---|---|
+| `lg` | lazygit — git TUI ครบจบในจอเดียว (stage/commit/rebase/push) |
+| `git diff` | สวยอัตโนมัติด้วย delta — กด `n`/`N` กระโดดข้ามไฟล์ |
+| `y` | yazi — file manager มี preview ออกแล้ว cd ตามให้ |
+| `btop` / `lazydocker` / `dive <image>` | monitor ระบบ / docker TUI / ส่องชั้น image |
+| `kubectl neat -f x.yaml` | ล้าง yaml ให้เหลือแต่เนื้อ |
+| `kubectl tree deploy/<name>` | ดู ownership ของ resource เป็นต้นไม้ |
+| `kubectl node-shell <node>` | เข้า shell ของ node ตรงๆ |
+| `kubent` | สแกน deprecated API ก่อนอัปเกรด cluster |
+| `popeye` | ตรวจสุขภาพ cluster + ให้เกรด |
+| `argocd` / `kustomize` | CLI คู่สาย gitops |
+| `lnav <dir>` | เปิด log หลายไฟล์ merge ตามเวลา + query ด้วย SQL |
+| `fx` / `jless` | ส่อง JSON แบบโต้ตอบ / แบบ pager |
+| `xh get api.example.com/x` | curl โฉมใหม่ syntax ภาษาคน |
+| `trippy <host>` / `gping <h1> <h2>` / `doggo <domain>` | traceroute+ping TUI / ping เป็นกราฟ / DNS สวยๆ |
+| `hyperfine 'cmd1' 'cmd2'` | benchmark เทียบคำสั่ง |
+| `watchexec -e tf 'terraform validate'` | รันซ้ำอัตโนมัติเมื่อไฟล์เปลี่ยน |
+| `sops -e secrets.yaml` | เข้ารหัส secret เก็บใน git (คู่กับ age) |
+| `assume` | granted — สลับ AWS SSO role หลาย account, token อยู่ใน keychain |
+| `steampipe query "select name, region from aws_s3_bucket"` | query AWS ด้วย SQL |
+| `aws ssm start-session --target <instance-id>` | เข้า EC2 โดยไม่ต้องมี SSH/bastion |
+| `mise use terraform@1.9` / `just` | pin เวอร์ชัน tool ต่อโปรเจกต์ / task runner |
+| `eksctl get cluster` / `infracost breakdown --path .` | จัดการ EKS / ประเมินค่าใช้จ่าย terraform |

@@ -111,6 +111,16 @@ if command -v eza >/dev/null 2>&1; then
   alias lt='eza --tree --level=2 --icons=auto'
 fi
 command -v viddy >/dev/null 2>&1 && alias watch='viddy'
+# krew — kubectl plugins
+[[ -d "$HOME/.krew/bin" ]] && export PATH="$HOME/.krew/bin:$PATH"
+# lazygit
+command -v lazygit >/dev/null 2>&1 && alias lg='lazygit'
+# yazi — ออกแล้ว cd ตาม dir ที่เปิดค้าง
+if command -v yazi >/dev/null 2>&1; then
+  y() { local tmp="$(mktemp)"; yazi --cwd-file="$tmp" "$@"; local d="$(cat "$tmp")"; rm -f "$tmp"; [[ -n $d && $d != $PWD ]] && cd "$d" }
+fi
+# granted — สลับ AWS SSO role (ต้อง source เลยเป็น alias)
+command -v granted >/dev/null 2>&1 && alias assume='. assume'
 if command -v kubecolor >/dev/null 2>&1; then
   alias kubectl='kubecolor'
   alias k='kubecolor'
