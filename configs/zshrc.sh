@@ -170,6 +170,27 @@ bindkey '^Z' _fancy_ctrl_z
 setopt correct
 CORRECT_IGNORE='[._]*'
 
+# ---------- fzf-tab: Tab = dropdown เลือกด้วยลูกศร (ทุกคำสั่ง ทุก terminal รวม tmux) ----------
+fpath=("$HOME/.zsh/completions" "$BREW_PREFIX/share/zsh/site-functions" $fpath)
+autoload -Uz compinit
+for _d in "$HOME"/.zcompdump(N.mh+24); do compinit; break; done
+compinit -C
+unset _d
+autoload -Uz bashcompinit && bashcompinit
+command -v aws_completer >/dev/null 2>&1 && complete -C aws_completer aws
+command -v terraform >/dev/null 2>&1 && complete -o nospace -C terraform terraform
+if [[ -f "$HOME/.zsh/fzf-tab/fzf-tab.plugin.zsh" ]]; then
+  source "$HOME/.zsh/fzf-tab/fzf-tab.plugin.zsh"
+  zstyle ':completion:*' menu no
+  zstyle ':completion:*:descriptions' format '[%d]'
+  zstyle ':fzf-tab:*' fzf-flags --height=~60%
+  # กด / เจาะเข้าโฟลเดอร์ชั้นถัดไปต่อเลย
+  zstyle ':fzf-tab:*' continuous-trigger '/'
+  zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --icons=auto --color=always $realpath 2>/dev/null'
+  # ใน tmux เด้งเป็น popup กลางจอ
+  [[ -n $TMUX ]] && zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+fi
+
 # ---------- suggestions + syntax highlighting (ต้องอยู่ท้ายสุด) ----------
 [[ -f "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && \
   source "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"

@@ -10,7 +10,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/arkashira/devops-termina
 
 ## ได้อะไรบ้าง
 
-**🔍 fzf ทุกจุดสัมผัส** — `Ctrl+R` history (atuin), `Ctrl+T` ไฟล์+preview, `Alt+C` cd, `**<Tab>` completion, `Ctrl+G` คลังคำสั่ง devops (navi), `z` กระโดด dir (zoxide)
+**🔍 fzf ทุกจุดสัมผัส** — **`Tab` = fzf-tab dropdown** (เลือกด้วยลูกศร ทุกคำสั่งพร้อม completion จริงของ kubectl/helm/aws/terraform/stern/gh, กด `/` เจาะโฟลเดอร์ต่อ, popup กลางจอใน tmux), `Ctrl+R` history (atuin), `Ctrl+T` ไฟล์+preview, `Alt+C` cd, `Ctrl+G` คลังคำสั่ง devops (navi), `z` กระโดด dir (zoxide)
 
 **☸️ Kubernetes/AWS** — `saws` สลับ AWS profile แบบ dropdown, `kubectx`/`kubens`, `fkl`/`fke`/`fkd`/`fkpf` เลือก pod แล้ว log/shell/describe/port-forward, `stern` tail log หลาย pod, kubecolor, viddy, k8s context โชว์บน tmux status bar + starship prompt กันยิงผิดคลัสเตอร์, auto-switch AWS profile ตามโฟลเดอร์ (`AWS_DIR_PROFILES`)
 

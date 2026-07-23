@@ -32,7 +32,7 @@ fi
 # ---------- packages ----------
 log "ติดตั้ง packages (ข้ามตัวที่มีแล้ว)..."
 FORMULAS=(fzf fd bat eza zoxide atuin starship zsh-autosuggestions zsh-syntax-highlighting
-  tmux kubectx k9s stern kubecolor viddy yq jq direnv trivy terraform-docs navi glow)
+  tmux kubernetes-cli helm kubectx k9s stern kubecolor viddy yq jq direnv trivy terraform-docs navi glow gh)
 for f in "${FORMULAS[@]}"; do
   brew list "$f" >/dev/null 2>&1 || brew install "$f"
 done
@@ -45,6 +45,16 @@ ok "packages พร้อม"
 # ---------- tmux plugins ----------
 [[ -d "$HOME/.tmux/plugins/tpm" ]] || git clone --depth 1 https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
 [[ -d "$HOME/.tmux/kube-tmux" ]]   || git clone --depth 1 https://github.com/jonmosco/kube-tmux "$HOME/.tmux/kube-tmux"
+
+# ---------- fzf-tab: Tab = dropdown + completions ของ tools หลัก ----------
+[[ -d "$HOME/.zsh/fzf-tab" ]] || git clone --depth 1 https://github.com/Aloxaf/fzf-tab "$HOME/.zsh/fzf-tab"
+mkdir -p "$HOME/.zsh/completions"
+{ command -v kubectl >/dev/null && kubectl completion zsh > "$HOME/.zsh/completions/_kubectl"; } || true
+{ command -v helm >/dev/null && helm completion zsh > "$HOME/.zsh/completions/_helm"; } || true
+{ command -v stern >/dev/null && stern --completion=zsh > "$HOME/.zsh/completions/_stern" 2>/dev/null; } || true
+{ command -v gh >/dev/null && gh completion -s zsh > "$HOME/.zsh/completions/_gh"; } || true
+rm -f "$HOME"/.zcompdump*   # ให้ shell แรกหลังติดตั้ง rebuild ดัชนี completion ใหม่
+ok "fzf-tab + completions พร้อม"
 
 # ---------- link configs (ของเดิมถูก backup เป็น *.pre-devops-terminal) ----------
 backup_link() {
