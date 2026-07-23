@@ -121,6 +121,18 @@ if command -v yazi >/dev/null 2>&1; then
 fi
 # granted — สลับ AWS SSO role (ต้อง source เลยเป็น alias)
 command -v granted >/dev/null 2>&1 && alias assume='. assume'
+# ntfy — nt <คำสั่ง> = รันเสร็จแจ้งเข้ามือถือ ผ่าน ntfy.sh
+# วิธีใช้: ลงแอป ntfy บนมือถือ → subscribe topic ลับของคุณ → ตั้งค่าแล้ว uncomment:
+# export NTFY_TOPIC="my-secret-topic"
+if command -v ntfy >/dev/null 2>&1; then
+  nt() {
+    local start=$SECONDS; "$@"; local code=$?
+    local dur=$((SECONDS-start))
+    local icon="✅"; [[ $code -ne 0 ]] && icon="❌"
+    [[ -n "$NTFY_TOPIC" ]] && command ntfy publish "$NTFY_TOPIC" "$icon $* (${dur}s, exit $code)" >/dev/null 2>&1
+    return $code
+  }
+fi
 if command -v kubecolor >/dev/null 2>&1; then
   alias kubectl='kubecolor'
   alias k='kubecolor'
