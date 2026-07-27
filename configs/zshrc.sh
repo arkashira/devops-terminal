@@ -152,6 +152,17 @@ fkpf() { local p=($(_fzf_pick_pod)); [[ -z "$p" ]] && return; local ports; read 
 
 # ---------- AI helpers (ต้องมี kiro-cli + login แล้ว) ----------
 if command -v kiro-cli >/dev/null 2>&1; then
+  # fix-kiro — ใช้เมื่อ dropdown กดเลือกไม่ได้ (มักเป็นหลังแอป self-update ทำสิทธิ์ macOS ค้าง)
+  fix-kiro() {
+    killall kiro_cli_desktop 2>/dev/null
+    open "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
+    echo "1) Accessibility: เลือก Kiro CLI → กด − ลบ → กด + เพิ่มใหม่จาก /Applications/Kiro CLI.app"
+    echo "2) Input Monitoring (เมนูซ้าย): ทำแบบเดียวกัน"
+    echo "3) เสร็จทั้งสองแล้วกด Enter ตรงนี้"
+    read -r
+    open -a "Kiro CLI"
+    echo "✅ เปิดแท็บ terminal ใหม่แล้วลองพิม cd ดู"
+  }
   # ask <คำถาม> — ถาม AI ตอบในจอ (read-only)
   ask() { kiro-cli chat --no-interactive --trust-tools= "$*" }
   # whyfail — ให้ AI อธิบายว่าคำสั่งล่าสุดพังเพราะอะไร
