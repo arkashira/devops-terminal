@@ -1,0 +1,18 @@
+# k9s plugins — กดปุ่มลัดจากใน k9s ได้เลย
+plugins:
+  # เลือก pod แล้วกด Ctrl-L = tail log หลาย pod ด้วย stern
+  stern:
+    shortCut: Ctrl-L
+    description: "logs ทั้งชุด (stern)"
+    scopes:
+      - pods
+    command: stern
+    background: false
+    args:
+      - --tail
+      - "50"
+      - $FILTER
+      - -n
+      - $NAMESPACE
+      - --context
+      - $CONTEXT

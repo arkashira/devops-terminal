@@ -7,6 +7,21 @@ disabled = false
 format = '[⎈ $context( \($namespace\))]($style) '
 style = 'cyan bold'
 
+# สีเตือนตาม environment — เห็นปุ๊บรู้เลยว่ากำลังยิงใส่ที่ไหน
+[[kubernetes.contexts]]
+context_pattern = '.*(prod|prd).*'
+style = 'bold red'
+symbol = '🔥 '
+
+[[kubernetes.contexts]]
+context_pattern = '.*(uat|stg|staging).*'
+style = 'bold yellow'
+
+# ย่อ context แบบ ARN เต็มให้เหลือแค่ชื่อ cluster
+[[kubernetes.contexts]]
+context_pattern = 'arn:aws:eks:.*:cluster/(?P<cluster>.*)'
+context_alias = '$cluster'
+
 # โชว์เฉพาะตอน set AWS_PROFILE แล้วเท่านั้น (วงเล็บรอบนอก = conditional)
 [aws]
 format = '([aws:$profile]($style) )'

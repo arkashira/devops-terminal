@@ -199,6 +199,35 @@ _fancy_ctrl_z() {
 zle -N _fancy_ctrl_z
 bindkey '^Z' _fancy_ctrl_z
 
+# แจ้งเตือน macOS เองเมื่อคำสั่งที่รันเกิน 30 วิ เสร็จ (terraform apply, build ฯลฯ)
+zmodload zsh/datetime 2>/dev/null
+typeset -g _lc_start= _lc_cmd=
+_lc_preexec() { _lc_start=$EPOCHSECONDS; _lc_cmd=$1 }
+_lc_precmd() {
+  local code=$?
+  [[ -z $_lc_start ]] && return
+  local dur=$(( EPOCHSECONDS - _lc_start )); _lc_start=
+  (( dur < 30 )) && return
+  [[ $_lc_cmd == (vim|nvim|vi|less|man|k9s|tmux|ssh|fzf|lazygit|lazydocker|btop|htop|watch|viddy|yazi|kiro-cli|claude|stern|sesh|atuin)* ]] && return
+  local msg="${_lc_cmd//[\"\\\`]/} — $((dur/60))m$((dur%60))s (exit $code)"
+  osascript -e "display notification \"${msg[1,80]}\" with title \"✅ งานเสร็จ\" sound name \"Glass\"" &>/dev/null &!
+}
+add-zsh-hook preexec _lc_preexec
+add-zsh-hook precmd _lc_precmd
+
+# y — เปิด yazi แล้ว cd ตามโฟลเดอร์ที่ browse ค้างไว้ตอนออก
+if command -v yazi >/dev/null 2>&1; then
+  y() {
+    local tmp="$(mktemp -t yazi-cwd.XXXXXX)" cwd
+    yazi "$@" --cwd-file="$tmp"
+    if cwd="$(command cat -- "$tmp")" && [[ -n "$cwd" && "$cwd" != "$PWD" ]]; then
+      builtin cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+  }
+fi
+command -v lazygit >/dev/null 2>&1 && alias lg='lazygit'
+
 # ---------- autocorrect ----------
 setopt correct
 CORRECT_IGNORE='[._]*'

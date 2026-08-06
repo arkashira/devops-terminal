@@ -60,6 +60,15 @@ mkdir -p "$HOME/.zsh/completions"
 rm -f "$HOME"/.zcompdump*   # ให้ shell แรกหลังติดตั้ง rebuild ดัชนี completion ใหม่
 ok "fzf-tab + completions พร้อม"
 
+# ---------- kubectl krew plugins + k9s plugins ----------
+if command -v kubectl-krew >/dev/null 2>&1; then
+  kubectl krew install tree neat view-secret node-shell >/dev/null 2>&1 || true
+  ok "krew plugins: tree neat view-secret node-shell"
+fi
+K9S_DIR="$HOME/Library/Application Support/k9s"
+mkdir -p "$K9S_DIR"
+[[ -f "$K9S_DIR/plugins.yaml" ]] || cp "$INSTALL_DIR/configs/k9s-plugins.yaml" "$K9S_DIR/plugins.yaml"
+
 # ---------- link configs (ของเดิมถูก backup เป็น *.pre-devops-terminal) ----------
 backup_link() {
   local src="$1" dst="$2"
