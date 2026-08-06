@@ -16,3 +16,14 @@ plugins:
       - $NAMESPACE
       - --context
       - $CONTEXT
+  # เลือก pod แล้วกด Ctrl-G = เท log เข้า gonzo (TUI วิเคราะห์ log แบบ realtime)
+  gonzo:
+    shortCut: Ctrl-G
+    description: "logs → gonzo"
+    scopes:
+      - pods
+    command: sh
+    background: false
+    args:
+      - -c
+      - "kubectl logs --context $CONTEXT -n $NAMESPACE $NAME --tail=2000 -f | gonzo"

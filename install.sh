@@ -34,7 +34,8 @@ log "ติดตั้ง packages (ข้ามตัวที่มีแล�
 FORMULAS=(fzf fd bat eza zoxide atuin starship zsh-autosuggestions zsh-syntax-highlighting
   tmux kubernetes-cli helm kubectx k9s stern kubecolor viddy yq jq direnv trivy terraform-docs navi glow gh
   krew kubent popeye argocd kustomize lazygit git-delta dive lazydocker btop yazi
-  lnav fx jless xh trippy gping doggo hyperfine watchexec sops age mise just eksctl infracost sesh ntfy)
+  lnav fx jless xh trippy gping doggo hyperfine watchexec sops age mise just eksctl infracost sesh ntfy
+  ripgrep dust duf procs tealdeer k8sgpt jwt-ui kdash gonzo)
 for f in "${FORMULAS[@]}"; do
   brew list "$f" >/dev/null 2>&1 || brew install "$f"
 done
@@ -62,8 +63,8 @@ ok "fzf-tab + completions พร้อม"
 
 # ---------- kubectl krew plugins + k9s plugins ----------
 if command -v kubectl-krew >/dev/null 2>&1; then
-  kubectl krew install tree neat view-secret node-shell >/dev/null 2>&1 || true
-  ok "krew plugins: tree neat view-secret node-shell"
+  kubectl krew install tree neat view-secret node-shell resource-capacity >/dev/null 2>&1 || true
+  ok "krew plugins: tree neat view-secret node-shell resource-capacity"
 fi
 K9S_DIR="$HOME/Library/Application Support/k9s"
 mkdir -p "$K9S_DIR"

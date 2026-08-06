@@ -67,6 +67,24 @@
 | `prefix Ctrl+s` / `Ctrl+r` | save / restore session (autosave ทุก 15 นาที) |
 | `prefix I` | ติดตั้ง/อัปเดต plugins · `prefix r` reload config |
 
+## 🧰 Modern CLI
+| คำสั่ง | ทำอะไร |
+|---|---|
+| `rg <คำ>` | grep ยุคใหม่ เร็วกว่า 8 เท่า เคารพ .gitignore |
+| `dust` / `duf` / `procs` | du / df / ps ฉบับสวยอ่านง่าย |
+| `tldr <cmd>` | ตัวอย่างใช้งานคำสั่งแบบสั้นๆ |
+| `lg` | lazygit — git แบบ TUI |
+| `y` | yazi file manager — ออกแล้ว cd ตามโฟลเดอร์ที่ browse |
+| `kdash` | k8s dashboard เร็วจัด (คู่กับ k9s) |
+| `k8sgpt analyze` | AI ไล่หาปัญหาทั้งคลัสเตอร์ (โหมดพื้นฐานไม่ต้องมี API key) |
+| `kubectl resource-capacity -u` | requests/limits เทียบการใช้จริง |
+| `kubectl tree` / `neat` / `view-secret` / `node-shell` | krew plugins |
+| `jwtui <token>` | decode JWT ในจอ |
+| `kubectl logs ... \| gonzo` | วิเคราะห์ log สดใน TUI |
+| ใน k9s: `Ctrl-L` / `Ctrl-G` | stern logs / เท log เข้า gonzo |
+| รันคำสั่ง >30 วิ | แจ้งเตือน macOS เด้งเองตอนเสร็จ |
+| prompt ⎈ ขึ้น 🔥 สีแดง | อยู่ context prod — เช็คก่อนยิง! |
+
 ## 🛡 DevSecOps
 | คำสั่ง | ทำอะไร |
 |---|---|
