@@ -35,7 +35,8 @@ FORMULAS=(fzf fd bat eza zoxide atuin starship zsh-autosuggestions zsh-syntax-hi
   tmux kubernetes-cli helm kubectx k9s stern kubecolor viddy yq jq direnv trivy terraform-docs navi glow gh
   krew kubent popeye argocd kustomize lazygit git-delta dive lazydocker btop yazi
   lnav fx jless xh trippy gping doggo hyperfine watchexec sops age mise just eksctl infracost sesh ntfy
-  ripgrep dust duf procs tealdeer k8sgpt jwt-ui kdash gonzo)
+  ripgrep dust duf procs tealdeer k8sgpt jwt-ui kdash gonzo
+  grpcurl websocat bandwhich sd miller csvlens ouch crane kubeconform kor s5cmd steampipe onefetch fastfetch asciinema slides atac)
 for f in "${FORMULAS[@]}"; do
   brew list "$f" >/dev/null 2>&1 || brew install "$f"
 done
@@ -66,6 +67,7 @@ if command -v kubectl-krew >/dev/null 2>&1; then
   kubectl krew install tree neat view-secret node-shell resource-capacity >/dev/null 2>&1 || true
   ok "krew plugins: tree neat view-secret node-shell resource-capacity"
 fi
+command -v gh >/dev/null 2>&1 && { gh extension install dlvhdr/gh-dash >/dev/null 2>&1 || true; }
 K9S_DIR="$HOME/Library/Application Support/k9s"
 mkdir -p "$K9S_DIR"
 [[ -f "$K9S_DIR/plugins.yaml" ]] || cp "$INSTALL_DIR/configs/k9s-plugins.yaml" "$K9S_DIR/plugins.yaml"
