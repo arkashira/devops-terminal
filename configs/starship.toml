@@ -51,25 +51,34 @@ format = '[[ $symbol $branch ](fg:crust bg:yellow)]($style)'
 style = "bg:yellow"
 format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
 
+# ภาษาทั้งหมด: เด้งเฉพาะเจอไฟล์ project จริง (go.mod, package.json, ...) ไม่นับไฟล์เศษๆ
 [golang]
 symbol = ""
 style = "bg:green"
 format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+detect_extensions = []
+detect_files = ['go.mod', 'go.sum', 'go.work']
 
 [nodejs]
 symbol = ""
 style = "bg:green"
 format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+detect_extensions = []
+detect_files = ['package.json', '.nvmrc']
 
 [python]
 symbol = ""
 style = "bg:green"
 format = '[[ $symbol( $version)(\(#$virtualenv\)) ](fg:crust bg:green)]($style)'
+detect_extensions = []
+detect_files = ['requirements.txt', 'pyproject.toml', 'Pipfile', 'setup.py', 'tox.ini', '.python-version']
 
 [java]
 symbol = " "
 style = "bg:green"
 format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+detect_extensions = []
+detect_files = ['pom.xml', 'build.gradle', 'build.gradle.kts', '.java-version']
 
 # โชว์เฉพาะตอน set AWS_PROFILE
 [aws]
@@ -79,10 +88,14 @@ format = '([ ☁ $profile ](fg:crust bg:sapphire))'
 [terraform]
 format = '([ 󱁢 $workspace ](fg:crust bg:sapphire))'
 
+# ⎈ เด้งเฉพาะใน dir/โปรเจกต์ที่มีของ k8s เท่านั้น (ไม่ใช่ทุกที่)
 [kubernetes]
 disabled = false
 format = '[ ⎈ $context( \($namespace\)) ]($style)'
 style = 'fg:crust bg:lavender bold'
+detect_files = ['kustomization.yaml', 'Chart.yaml', 'values.yaml', 'skaffold.yaml', 'helmfile.yaml', 'application.yaml', 'Tiltfile']
+detect_folders = ['k8s', 'kubernetes', 'manifests', 'charts', 'helm', 'gitops', 'argocd', 'apps', 'clusters', 'overlays', 'kustomize', 'templates']
+detect_env_vars = ['KUBECONFIG']
 
 # prod = ตัวแดง 🔥 บน segment, uat/stg = เหลือง
 [[kubernetes.contexts]]
