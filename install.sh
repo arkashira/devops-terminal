@@ -69,8 +69,19 @@ if command -v kubectl-krew >/dev/null 2>&1; then
 fi
 command -v gh >/dev/null 2>&1 && { gh extension install dlvhdr/gh-dash >/dev/null 2>&1 || true; }
 K9S_DIR="$HOME/Library/Application Support/k9s"
-mkdir -p "$K9S_DIR"
+mkdir -p "$K9S_DIR/skins"
 [[ -f "$K9S_DIR/plugins.yaml" ]] || cp "$INSTALL_DIR/configs/k9s-plugins.yaml" "$K9S_DIR/plugins.yaml"
+cp "$INSTALL_DIR/configs/k9s-skin-catppuccin-mocha.yaml" "$K9S_DIR/skins/catppuccin-mocha.yaml"
+# ตั้ง skin ให้ถ้ามี config.yaml แล้ว (k9s สร้างไฟล์นี้ตอนรันครั้งแรก)
+[[ -f "$K9S_DIR/config.yaml" ]] && yq -i '.k9s.ui.skin = "catppuccin-mocha"' "$K9S_DIR/config.yaml" 2>/dev/null || true
+
+# ---------- bat: ธีม Catppuccin ----------
+if [[ ! -f "$HOME/.config/bat/themes/Catppuccin Mocha.tmTheme" ]]; then
+  git clone --depth 1 https://github.com/catppuccin/bat /tmp/cat-bat 2>/dev/null || true
+  mkdir -p "$HOME/.config/bat/themes"
+  cp /tmp/cat-bat/themes/*.tmTheme "$HOME/.config/bat/themes/" 2>/dev/null || true
+  bat cache --build >/dev/null 2>&1 || true
+fi
 
 # ---------- link configs (ของเดิมถูก backup เป็น *.pre-devops-terminal) ----------
 backup_link() {

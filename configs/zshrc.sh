@@ -82,7 +82,12 @@ _aws_profile_by_dir
 # ---------- fzf full integration ----------
 if command -v fzf >/dev/null 2>&1; then
   source <(fzf --zsh)
-  export FZF_DEFAULT_OPTS='--height=~60% --layout=reverse --border --info=inline'
+  export FZF_DEFAULT_OPTS="--height=~60% --layout=reverse --border=rounded --info=inline \
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
+--color=selected-bg:#45475a,border:#6c7086"
+  export BAT_THEME="Catppuccin Mocha"
   export FZF_TMUX_OPTS='-p 80%,60%'
   if command -v fd >/dev/null 2>&1; then
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
