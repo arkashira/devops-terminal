@@ -184,6 +184,8 @@ if command -v kiro-cli >/dev/null 2>&1; then
   }
   zle -N _kiro_translate_widget
   bindkey '^[t' _kiro_translate_widget
+  # fixdrop — dropdown ของ Kiro หาย/ค้าง พิมคำเดียวจบ แล้วเปิดแท็บใหม่
+  alias fixdrop='killall kiro_cli_desktop 2>/dev/null; sleep 2; open -ga "Kiro CLI"; echo "restarted — open a new tab"'
 fi
 
 # ---------- QoL widgets ----------
