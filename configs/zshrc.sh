@@ -256,12 +256,32 @@ if [[ -f "$HOME/.zsh/fzf-tab/fzf-tab.plugin.zsh" ]]; then
   # กด / เจาะเข้าโฟลเดอร์ชั้นถัดไปต่อเลย
   zstyle ':fzf-tab:*' continuous-trigger '/'
   zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --icons=auto --color=always $realpath 2>/dev/null'
+  zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview 'ps -p $word -o pid,pcpu,pmem,etime,command 2>/dev/null'
+  zstyle ':fzf-tab:complete:git-(checkout|switch|merge|rebase):*' fzf-preview 'git log --oneline --color=always -15 $word 2>/dev/null'
+  zstyle ':fzf-tab:complete:(export|unset|printenv):*' fzf-preview 'printenv $word 2>/dev/null'
+  zstyle ':fzf-tab:complete:brew-(install|info|uninstall|upgrade):*' fzf-preview 'brew info $word 2>/dev/null | head -20'
   # ใน tmux เด้งเป็น popup กลางจอ
   [[ -n $TMUX ]] && zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 fi
 
+# ---------- history เทพ ----------
+HISTSIZE=50000
+SAVEHIST=50000
+setopt hist_ignore_all_dups hist_reduce_blanks inc_append_history extended_history
+
+# Ctrl+X Ctrl+E — เอาคำสั่งที่พิมค้างไปแก้ต่อใน editor
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line
+
 # ---------- suggestions + syntax highlighting (ต้องอยู่ท้ายสุด) ----------
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 [[ -f "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && \
   source "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+[[ -f "$HOME/.zsh/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh" ]] && \
+  source "$HOME/.zsh/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh"
 [[ -f "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && \
   source "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+# fastfetch ต้อนรับ (เฉพาะหน้าต่างแรกใน Ghostty นอก tmux)
+[[ $TERM_PROGRAM == ghostty && -z $TMUX && $SHLVL -eq 1 ]] && command -v fastfetch >/dev/null 2>&1 && fastfetch

@@ -75,6 +75,22 @@ cp "$INSTALL_DIR/configs/k9s-skin-catppuccin-mocha.yaml" "$K9S_DIR/skins/catppuc
 # ตั้ง skin ให้ถ้ามี config.yaml แล้ว (k9s สร้างไฟล์นี้ตอนรันครั้งแรก)
 [[ -f "$K9S_DIR/config.yaml" ]] && yq -i '.k9s.ui.skin = "catppuccin-mocha"' "$K9S_DIR/config.yaml" 2>/dev/null || true
 
+# ---------- ธีม Catppuccin: btop / lazygit / zsh-syntax-highlighting ----------
+if [[ ! -f "$HOME/.config/btop/themes/catppuccin_mocha.theme" ]]; then
+  git clone --depth 1 https://github.com/catppuccin/btop /tmp/cat-btop 2>/dev/null || true
+  mkdir -p "$HOME/.config/btop/themes"
+  cp /tmp/cat-btop/themes/*.theme "$HOME/.config/btop/themes/" 2>/dev/null || true
+fi
+[[ -f "$HOME/.config/btop/btop.conf" ]] || printf 'color_theme = "catppuccin_mocha"\ntheme_background = False\nvim_keys = True\n' > "$HOME/.config/btop/btop.conf"
+if [[ ! -f "$HOME/.zsh/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh" ]]; then
+  git clone --depth 1 https://github.com/catppuccin/zsh-syntax-highlighting /tmp/cat-zsh 2>/dev/null || true
+  mkdir -p "$HOME/.zsh/themes"
+  cp /tmp/cat-zsh/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh "$HOME/.zsh/themes/" 2>/dev/null || true
+fi
+LG_DIR="$HOME/Library/Application Support/lazygit"
+mkdir -p "$LG_DIR"
+[[ -f "$LG_DIR/config.yml" ]] || cp "$INSTALL_DIR/configs/lazygit-config.yml" "$LG_DIR/config.yml" 2>/dev/null || true
+
 # ---------- bat: ธีม Catppuccin ----------
 if [[ ! -f "$HOME/.config/bat/themes/Catppuccin Mocha.tmTheme" ]]; then
   git clone --depth 1 https://github.com/catppuccin/bat /tmp/cat-bat 2>/dev/null || true

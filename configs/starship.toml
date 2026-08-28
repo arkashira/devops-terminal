@@ -24,7 +24,24 @@ $cmd_duration\
 $line_break\
 $character"""
 
+# มุมขวา: แบต (เมื่อต่ำ) + นาฬิกา จางๆ ไม่รบกวน
+right_format = '$battery$time'
+
 palette = 'catppuccin_mocha'
+
+[battery]
+full_symbol = '󰁹'
+charging_symbol = '󰂄 '
+discharging_symbol = '󰂃 '
+
+[[battery.display]]
+threshold = 30
+style = 'fg:red bold'
+
+[time]
+disabled = false
+time_format = '%H:%M'
+format = '[󰥔 $time](fg:overlay0)'
 
 [os]
 disabled = false
