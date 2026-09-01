@@ -105,6 +105,26 @@
 | `helm diff upgrade ...` | ดู diff ก่อน helm upgrade จริง (สาย GitOps ต้องมี) |
 | `k8sgpt analyze --explain -b amazonbedrock` | AI อธิบายปัญหา cluster (ต้องเปิด Bedrock model access ก่อน) |
 
+## 🏎 Accelerators & Dev (2026-09-02)
+| คำสั่ง | ทำอะไร |
+|---|---|
+| `Ctrl+Space` หรือ `pal` | **Command Palette** — เมนูท่าไม้ตายทั้งหมด เลือกแล้ววางลงบรรทัด |
+| `kgp`+space | abbr แบบ fish: ระเบิดเป็น `kubectl get pods` (ดูหมด: `abbr list` — kgpa/kl/ke/kaf/krr/tfp/tfa/gst/gcm...) |
+| `ga` `glo` `gd` `gcb` `gss` | forgit — git ทุกท่าแบบ fzf (stage/log/diff/branch/stash) |
+| `git absorb --and-rebase` | stage แก้ไขแล้วรัน → สร้าง fixup เข้า commit ที่ถูกต้องเองอัตโนมัติ |
+| `gdd` | diff แบบเข้าใจโครงสร้างโค้ด (difftastic) |
+| `lab-up` / `lab-down` | คลัสเตอร์ k8s จำลองในเครื่อง (k3d) ไว้ซ้อม CKA/เทส manifest |
+| `glab` | GitLab CLI — MR/pipeline จาก terminal (`glab auth login --hostname <กิตบริษัท>`) |
+| `freeze <file> -o x.png` | แปลงโค้ดเป็นรูปสวยๆ แชร์ได้ |
+| `vhs <tape>` | อัด terminal เป็น GIF จากสคริปต์ |
+| `jnv <file.json>` | เขียน jq แบบเห็นผลสดๆ |
+| `mprocs` / `pueue` | รันหลาย process ใน TUI / คิวงานยาวไม่ตายตามเทอร์มินัล |
+| `hurl x.hurl` / `act` | เทส API เป็นไฟล์ (CI ได้) / รัน GitHub Actions ในเครื่อง |
+| `cosign` / `awscurl` / `rclone` | verify image / curl แบบ SigV4 / sync ทุก cloud storage |
+| `tokei` / `grex` / `hexyl` | นับโค้ด / สร้าง regex จากตัวอย่าง / hex viewer |
+| `img <รูป>` / `lastout` | ดูรูปในจอ / copy output คำสั่งล่าสุด (tmux) |
+| Enter แล้ว prompt เก่าย่อ | transient prompt — scrollback สะอาด (ปิด: คอมเมนต์ใน zshrc) |
+
 ## 🛡 DevSecOps
 | คำสั่ง | ทำอะไร |
 |---|---|
