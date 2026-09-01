@@ -188,6 +188,33 @@ if command -v kiro-cli >/dev/null 2>&1; then
   alias fixdrop='killall kiro_cli_desktop 2>/dev/null; sleep 2; open -ga "Kiro CLI"; echo "restarted — open a new tab"'
 fi
 
+# ---------- network toolkit ----------
+myip() {
+  echo "local : $(ipconfig getifaddr en0 2>/dev/null || echo -)"
+  echo "public: $(curl -s --max-time 5 ifconfig.me || echo -)"
+}
+ports() { lsof -nP -iTCP -sTCP:LISTEN }
+certcheck() {
+  echo | openssl s_client -servername "$1" -connect "${1}:${2:-443}" 2>/dev/null \
+    | openssl x509 -noout -subject -issuer -dates
+}
+alias speed='networkQuality -v'
+alias flushdns='sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder && echo "DNS cache flushed"'
+# knet [ns] — netshoot pod สำหรับ debug network จากในคลัสเตอร์ (ออกแล้วลบตัวเอง)
+knet() { kubectl run knet-$$ --rm -it --image=nicolaka/netshoot --restart=Never ${1:+-n "$1"} -- bash }
+# oops [ns] — pod พัง + events + AI วิเคราะห์ ในคำสั่งเดียว
+oops() {
+  local ns=${1:-default}
+  echo "═══ pods ไม่ปกติ (ns: $ns) ═══"
+  kubectl get pods -n "$ns" --no-headers 2>/dev/null | command grep -vE "Running|Completed" || echo "  (ไม่มี — เขียวหมด)"
+  echo "═══ events ล่าสุด ═══"
+  kubectl get events -n "$ns" --sort-by=.lastTimestamp 2>/dev/null | tail -12
+  if command -v k8sgpt >/dev/null 2>&1; then
+    echo "═══ k8sgpt วิเคราะห์ ═══"
+    k8sgpt analyze --namespace "$ns" 2>/dev/null | head -30
+  fi
+}
+
 # ---------- QoL widgets ----------
 # Esc Esc = เติม/ถอด sudo หน้าคำสั่ง
 _toggle_sudo() {

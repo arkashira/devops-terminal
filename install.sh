@@ -36,7 +36,8 @@ FORMULAS=(fzf fd bat eza zoxide atuin starship zsh-autosuggestions zsh-syntax-hi
   krew kubent popeye argocd kustomize lazygit git-delta dive lazydocker btop yazi
   lnav fx jless xh trippy gping doggo hyperfine watchexec sops age mise just eksctl infracost sesh ntfy
   ripgrep dust duf procs tealdeer k8sgpt jwt-ui kdash gonzo
-  grpcurl websocat bandwhich sd miller csvlens ouch crane kubeconform kor s5cmd steampipe onefetch fastfetch asciinema slides atac)
+  grpcurl websocat bandwhich sd miller csvlens ouch crane kubeconform kor s5cmd steampipe onefetch fastfetch asciinema slides atac
+  nmap iperf3 socat ipcalc oha httpstat mtr)
 for f in "${FORMULAS[@]}"; do
   brew list "$f" >/dev/null 2>&1 || brew install "$f"
 done
@@ -68,6 +69,7 @@ if command -v kubectl-krew >/dev/null 2>&1; then
   ok "krew plugins: tree neat view-secret node-shell resource-capacity"
 fi
 command -v gh >/dev/null 2>&1 && { gh extension install dlvhdr/gh-dash >/dev/null 2>&1 || true; }
+command -v helm >/dev/null 2>&1 && { helm plugin install https://github.com/databus23/helm-diff --verify=false >/dev/null 2>&1 || true; }
 K9S_DIR="$HOME/Library/Application Support/k9s"
 mkdir -p "$K9S_DIR/skins"
 [[ -f "$K9S_DIR/plugins.yaml" ]] || cp "$INSTALL_DIR/configs/k9s-plugins.yaml" "$K9S_DIR/plugins.yaml"

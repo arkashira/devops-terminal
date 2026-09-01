@@ -85,6 +85,23 @@
 | รันคำสั่ง >30 วิ | แจ้งเตือน macOS เด้งเองตอนเสร็จ |
 | prompt ⎈ ขึ้น 🔥 สีแดง | อยู่ context prod — เช็คก่อนยิง! |
 
+## 🌐 Network toolkit (2026-09-01)
+| คำสั่ง | ทำอะไร |
+|---|---|
+| `oops <ns>` | **สรุปความผิดปกติทั้ง namespace**: pod พัง + events + k8sgpt วิเคราะห์ ในคำสั่งเดียว |
+| `knet <ns>` | เปิด netshoot pod ใน cluster — dig/curl/tcpdump/iperf จากมุมมองข้างใน ออกแล้วลบตัวเอง |
+| `certcheck <domain>` | เช็ค cert: ออกโดยใคร หมดอายุเมื่อไหร่ |
+| `myip` / `ports` | IP local+public / ใครเปิด port ฟังอยู่ |
+| `speed` / `flushdns` | เทสเน็ต (built-in macOS) / ล้าง DNS cache |
+| `nmap <host>` | สแกน port/service (ใช้กับระบบที่มีสิทธิ์เท่านั้น) |
+| `sudo mtr <host>` | traceroute+ping ต่อเนื่อง เห็น packet loss รายจุด |
+| `iperf3 -c <host>` | วัด bandwidth จริงระหว่างเครื่อง (`knet` แล้วรัน iperf3 -s ฝั่ง cluster ได้) |
+| `ipcalc 10.0.0.0/21` | คำนวณ subnet/CIDR |
+| `oha -z 30s <url>` | load test สวยๆ มีกราฟสด |
+| `httpstat <url>` | เวลาแต่ละช่วงของ HTTP request (DNS/TCP/TLS/TTFB) |
+| `helm diff upgrade ...` | ดู diff ก่อน helm upgrade จริง (สาย GitOps ต้องมี) |
+| `k8sgpt analyze --explain -b amazonbedrock` | AI อธิบายปัญหา cluster (ต้องเปิด Bedrock model access ก่อน) |
+
 ## 🛡 DevSecOps
 | คำสั่ง | ทำอะไร |
 |---|---|
