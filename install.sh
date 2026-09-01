@@ -37,11 +37,12 @@ FORMULAS=(fzf fd bat eza zoxide atuin starship zsh-autosuggestions zsh-syntax-hi
   lnav fx jless xh trippy gping doggo hyperfine watchexec sops age mise just eksctl infracost sesh ntfy
   ripgrep dust duf procs tealdeer k8sgpt jwt-ui kdash gonzo
   grpcurl websocat bandwhich sd miller csvlens ouch crane kubeconform kor s5cmd steampipe onefetch fastfetch asciinema slides atac
-  nmap iperf3 socat ipcalc oha httpstat mtr chafa forgit dyff)
+  nmap iperf3 socat ipcalc oha httpstat mtr chafa forgit dyff gum carapace vhs)
 for f in "${FORMULAS[@]}"; do
   brew list "$f" >/dev/null 2>&1 || brew install "$f"
 done
 # granted — สลับ AWS SSO role (official tap)
+brew list freeze >/dev/null 2>&1 || brew install charmbracelet/tap/freeze || true
 brew list granted >/dev/null 2>&1 || brew install common-fate/granted/granted || warn "granted ติดตั้งไม่สำเร็จ"
 CASKS=(ghostty font-jetbrains-mono-nerd-font session-manager-plugin)
 for c in "${CASKS[@]}"; do

@@ -259,6 +259,45 @@ if command -v ntfy >/dev/null 2>&1; then
   alias nptopic='echo "term-$(cat ~/.config/.ntfy-topic)"'
 fi
 
+# ⚡ pal — Command Palette (แบบ Warp): Ctrl+Space หรือพิม pal → เลือกท่าไม้ตาย → วางลงบรรทัดพร้อมเติมค่า
+pal() {
+  local sel=$(command cat <<'PALEOF' | fzf --height=~75% --reverse --prompt='⚡ ' --header='Command Palette — Enter = วางลงบรรทัด' --delimiter='\|' --with-nth=1,2
+warroom          |🚨 ห้องบัญชาการ incident: k9s+stern+watch pods
+oops             |🔍 สรุปความผิดปกติใน namespace + AI
+ailog            |🤖 เท log ให้ AI หา root cause
+ask ''           |💬 ถาม AI
+whyfail          |🩹 AI อธิบายคำสั่งที่เพิ่งพัง
+k8sgpt analyze   |🧠 AI สแกนทั้งคลัสเตอร์
+saws             |☁️ สลับ AWS profile
+kubectx          |☸️ สลับ cluster
+kubens           |📦 สลับ namespace
+fkl              |📜 เลือก pod → tail log
+fke              |🐚 เลือก pod → เข้า shell
+fkpf             |🔌 เลือก pod → port-forward
+knet             |🕸 netshoot pod: debug network ในคลัสเตอร์
+stern . -n       |📡 tail log ทั้ง namespace
+kubectl resource-capacity -u |📊 capacity ทั้งคลัสเตอร์
+kor all -n       |🧹 หา resource กำพร้า
+certcheck        |🔐 เช็ค cert หมดอายุ
+myip             |🌐 IP เรา (local+public)
+killport         |💀 ฆ่า process ที่จอง port
+lastout          |📋 copy output คำสั่งล่าสุด
+lg               |🌿 lazygit
+glo              |🕘 git log แบบ fzf (forgit)
+warroom amaze-api|⚔️ war room ของ amaze-api เลย
+termdoctor       |🩺 ตรวจสุขภาพ terminal
+termup           |⬆️ อัปเดตทุกอย่าง+ซ่อม patch
+termsync         |🔁 sync config ขึ้น repo
+keys             |📖 cheat sheet ทั้งหมด
+roadmap          |🗺 แผนฝึก SRE 90 วัน
+PALEOF
+  )
+  [[ -n $sel ]] && print -z -- "$(echo "${sel%%|*}" | sed 's/ *$//') "
+}
+_pal_widget() { zle push-input; BUFFER="pal"; zle accept-line }
+zle -N _pal_widget
+bindkey '^ ' _pal_widget
+
 # ---------- QoL widgets ----------
 # Esc Esc = เติม/ถอด sudo หน้าคำสั่ง
 _toggle_sudo() {
@@ -319,6 +358,12 @@ unset _d
 autoload -Uz bashcompinit && bashcompinit
 command -v aws_completer >/dev/null 2>&1 && complete -C aws_completer aws
 command -v terraform >/dev/null 2>&1 && complete -o nospace -C terraform terraform
+# carapace — completion ให้อีก 1,000+ คำสั่งที่ยังไม่มีใครทำ (เสริม fzf-tab)
+if command -v carapace >/dev/null 2>&1; then
+  export CARAPACE_BRIDGES='zsh,bash'
+  source <(carapace _carapace zsh)
+fi
+
 if [[ -f "$HOME/.zsh/fzf-tab/fzf-tab.plugin.zsh" ]]; then
   source "$HOME/.zsh/fzf-tab/fzf-tab.plugin.zsh"
   zstyle ':completion:*' menu no
