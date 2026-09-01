@@ -135,6 +135,18 @@
 | Freelens (แอป) | Kubernetes IDE ฟรี (ทายาท OpenLens) — คู่กับ k9s เวลาต้องการ GUI |
 | Atuin Desktop (แอป) | runbook ที่ "รันได้" — เขียนเป็นเอกสารแต่กดรันคำสั่งจริงได้ ไว้ทำ incident playbook ของทีม |
 
+## ☁️ AWS emulate ในเครื่อง (ฟรีล้วน — 2026-09-04)
+| คำสั่ง | ทำอะไร |
+|---|---|
+| `cloudup` | สตาร์ท AWS emulator (fakecloud) ที่ localhost:4566 — `cloudup moto` ใช้ moto แทน |
+| `awsl <args>` | aws cli ที่ยิงเข้า emulator เสมอ เช่น `awsl s3 ls` (creds ปลอม ไม่แตะ profile จริง) |
+| `cloudtest` | สร้าง bucket+ไฟล์+dynamodb table พิสูจน์ว่า emulator ทำงาน |
+| `cloudstat` / `clouddown` | ดูสถานะ / ปิด emulator |
+| `s3up` / `s3down` | MinIO = S3 จริงจังในเครื่อง (console http://localhost:9001 minioadmin/minioadmin) |
+| `sam local start-api` | รัน Lambda + API Gateway ในเครื่อง (AWS SAM CLI — ฟรีทางการ) |
+| `tfl` | terraform + creds ปลอม (ต้องตั้ง endpoints ใน provider ให้ชี้ 4566) |
+> LocalStack ถูก archive มี.ค. 2026 + ต้อง login แล้ว — ชุดนี้ฟรี 100% ไม่ต้องสมัครอะไร
+
 ## 🛡 DevSecOps
 | คำสั่ง | ทำอะไร |
 |---|---|

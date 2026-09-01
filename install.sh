@@ -38,7 +38,7 @@ FORMULAS=(fzf fd bat eza zoxide atuin starship zsh-autosuggestions zsh-syntax-hi
   ripgrep dust duf procs tealdeer k8sgpt jwt-ui kdash gonzo
   grpcurl websocat bandwhich sd miller csvlens ouch crane kubeconform kor s5cmd steampipe onefetch fastfetch asciinema slides atac
   nmap iperf3 socat ipcalc oha httpstat mtr chafa forgit dyff gum carapace vhs
-  glab k3d git-absorb difftastic jnv mprocs pueue hurl act cosign awscurl rclone tokei grex hexyl television k6 kube-linter shellcheck shfmt yamllint gitleaks gitlab-ci-local colima stress-ng pgcli mycli)
+  glab k3d git-absorb difftastic jnv mprocs pueue hurl act cosign awscurl rclone tokei grex hexyl television k6 kube-linter shellcheck shfmt yamllint gitleaks gitlab-ci-local colima stress-ng pgcli mycli fakecloud aws-sam-cli minio)
 for f in "${FORMULAS[@]}"; do
   brew list "$f" >/dev/null 2>&1 || brew install "$f"
 done
@@ -130,6 +130,7 @@ backup_link "$INSTALL_DIR/configs/fastfetch.jsonc" "$HOME/.config/fastfetch/conf
 mkdir -p "$HOME/.zsh"
 ln -sfn "$INSTALL_DIR/configs/term-maintenance.zsh" "$HOME/.zsh/term-maintenance.zsh"
 ln -sfn "$INSTALL_DIR/configs/sre-kit.zsh" "$HOME/.zsh/sre-kit.zsh"
+ln -sfn "$INSTALL_DIR/configs/aws-local.zsh" "$HOME/.zsh/aws-local.zsh"
 mkdir -p "$HOME/.zsh/bin"
 ln -sfn "$INSTALL_DIR/configs/k8s-health.sh" "$HOME/.zsh/bin/k8s-health.sh"
 CHEAT_DIR="$(navi info cheats-path 2>/dev/null || echo "$HOME/.local/share/navi/cheats")"
