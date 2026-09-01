@@ -120,6 +120,8 @@ cp "$INSTALL_DIR"/shaders/*.glsl "$HOME/.config/ghostty/shaders/" 2>/dev/null ||
 backup_link "$INSTALL_DIR/configs/eza-theme.yml" "$HOME/.config/eza/theme.yml"
 backup_link "$INSTALL_DIR/configs/fastfetch.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 
+mkdir -p "$HOME/.zsh"
+ln -sfn "$INSTALL_DIR/configs/term-maintenance.zsh" "$HOME/.zsh/term-maintenance.zsh"
 CHEAT_DIR="$(navi info cheats-path 2>/dev/null || echo "$HOME/.local/share/navi/cheats")"
 mkdir -p "$CHEAT_DIR"
 ln -sfn "$INSTALL_DIR/configs/devops.cheat" "$CHEAT_DIR/devops.cheat"

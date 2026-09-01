@@ -240,6 +240,9 @@ oops() {
   fi
 }
 
+# ---------- termdoctor / termup / termsync — ระบบดูแลตัวเอง ----------
+[[ -f "$HOME/.zsh/term-maintenance.zsh" ]] && source "$HOME/.zsh/term-maintenance.zsh"
+
 # ---------- QoL widgets ----------
 # Esc Esc = เติม/ถอด sudo หน้าคำสั่ง
 _toggle_sudo() {
