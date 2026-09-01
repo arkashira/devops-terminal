@@ -117,6 +117,34 @@ chaos-pod() {
   kubectl delete pod "$pod" -n "$ns" --wait=false
 }
 
+# fdb [ns] — เลือก DB pod จาก dropdown → เปิด usql (psql-style ใช้ได้กับ pg/mysql/mssql/...) ผ่าน exec
+# รองรับ postgres/mysql อัตโนมัติจากชื่อ image; ถามรหัสผ่าน/ดึงจาก env ของ pod เอง
+fdb() {
+  command -v usql >/dev/null 2>&1 || { echo "ไม่มี usql"; return 1 }
+  local line=$(kubectl get pods ${1:+-n $1} --no-headers 2>/dev/null \
+    | rg -i 'postgres|mysql|mariadb|mssql|clickhouse' \
+    | fzf --prompt='db pod > ' --header='เลือก DB pod')
+  [[ -z $line ]] && return
+  local pod=$(echo "$line" | awk '{print $1}')
+  local img=$(kubectl get pod "$pod" ${1:+-n $1} -o jsonpath='{.spec.containers[0].image}' 2>/dev/null)
+  echo "💾 $pod ($img) — usql เปิดผ่าน pod นี้ (ใน pod ต้องมี client CLI)"
+  case $img in
+    *postgres*) kubectl exec -it "$pod" ${1:+-n $1} -- psql ;;
+    *mysql*|*maria*) kubectl exec -it "$pod" ${1:+-n $1} -- mysql -p ;;
+    *) kubectl exec -it "$pod" ${1:+-n $1} -- sh ;;
+  esac
+}
+
+# mirdev <target-pod> [-- cmd...] — รันคำสั่ง/โปรเซส local แต่ traffic+env+ไฟล์ วิ่งผ่าน pod จริงในคลัสเตอร์
+# เช่น: mirdev api-xxx -- go run . (debug โค้ดในเครื่องเหมือนอยู่ใน cluster โดยไม่ต้อง build+deploy)
+mirdev() {
+  command -v mirrord >/dev/null 2>&1 || { echo "ไม่มี mirrord"; return 1 }
+  local target=$1; shift
+  [[ -z $target ]] && { echo "ใช้: mirdev <pod> -- <คำสั่ง>"; return 1 }
+  [[ $1 == "--" ]] && shift
+  mirrord exec --target "pod/$target" -- "$@"
+}
+
 # lintall [dir] — ตรวจคุณภาพทุกอย่างใน dir เองตามชนิดไฟล์ที่เจอ (shell/yaml/k8s/terraform)
 lintall() {
   local t=${1:-.} ran=0

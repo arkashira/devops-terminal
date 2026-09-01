@@ -125,6 +125,16 @@
 | `img <รูป>` / `lastout` | ดูรูปในจอ / copy output คำสั่งล่าสุด (tmux) |
 | Enter แล้ว prompt เก่าย่อ | transient prompt — scrollback สะอาด (ปิด: คอมเมนต์ใน zshrc) |
 
+## 🧑‍💻 DevX pack (2026-09-04)
+| คำสั่ง | ทำอะไร |
+|---|---|
+| `mirdev <pod> -- <cmd>` | **mirrord** — รันโค้ดในเครื่องแต่ traffic/env/ไฟล์วิ่งผ่าน pod จริงในคลัสเตอร์ (ไม่ต้อง build+deploy เพื่อ debug) |
+| `kftui` | จัดการ port-forward หลายตัวใน TUI — pod ตายมันต่อกลับเอง (แก้จุดอ่อน kubectl port-forward) |
+| `fdb [ns]` | เลือก DB pod จาก dropdown → เข้า client ที่ตรงชนิด DB |
+| `usql <url>` | psql สำหรับทุก DB (pg/mysql/mssql/clickhouse/sqlite) syntax highlight + completion |
+| Freelens (แอป) | Kubernetes IDE ฟรี (ทายาท OpenLens) — คู่กับ k9s เวลาต้องการ GUI |
+| Atuin Desktop (แอป) | runbook ที่ "รันได้" — เขียนเป็นเอกสารแต่กดรันคำสั่งจริงได้ ไว้ทำ incident playbook ของทีม |
+
 ## 🛡 DevSecOps
 | คำสั่ง | ทำอะไร |
 |---|---|
