@@ -250,6 +250,14 @@ oops() {
 [[ -f "$BREW_PREFIX/share/forgit/forgit.plugin.zsh" ]] && source "$BREW_PREFIX/share/forgit/forgit.plugin.zsh"
 # dyff — kubectl diff แบบเข้าใจ YAML
 command -v dyff >/dev/null 2>&1 && export KUBECTL_EXTERNAL_DIFF="dyff between --omit-header --set-exit-code"
+# lab-up / lab-down — คลัสเตอร์ k8s จำลองในเครื่อง (k3d) ไว้ซ้อม CKA/ทดสอบ manifest ปลอดภัย 100%
+# (ต้องเปิด Docker ก่อน) เสร็จแล้ว kubectx เลือก k3d-lab / กลับ cluster จริงด้วย kubectx
+lab-up()   { k3d cluster create lab --agents 1 && kubectl cluster-info }
+lab-down() { k3d cluster delete lab }
+# gdd — diff แบบเข้าใจโครงสร้างโค้ด (difftastic — เห็นการย้าย function ไม่ใช่แค่บรรทัดเปลี่ยน)
+alias gdd='GIT_EXTERNAL_DIFF=difft git diff'
+# git absorb — stage การแก้ (git add -p) แล้วรัน `git absorb --and-rebase` = สร้าง fixup เข้า commit ที่ถูกต้องเองอัตโนมัติ
+
 killport() { lsof -ti tcp:$1 | xargs kill -9 2>/dev/null && echo "killed port $1" || echo "nothing on port $1" }
 alias serve='python3 -m http.server 8000'
 command -v atuin >/dev/null 2>&1 && alias topcmds='atuin stats'
