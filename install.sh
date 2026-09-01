@@ -55,6 +55,9 @@ ok "packages พร้อม"
 
 # ---------- fzf-tab: Tab = dropdown + completions ของ tools หลัก ----------
 [[ -d "$HOME/.zsh/fzf-tab" ]] || git clone --depth 1 https://github.com/Aloxaf/fzf-tab "$HOME/.zsh/fzf-tab"
+[[ -d "$HOME/.zsh/zsh-abbr" ]] || git clone --depth 1 --recurse-submodules https://github.com/olets/zsh-abbr "$HOME/.zsh/zsh-abbr"
+mkdir -p "$HOME/.config/zsh-abbr"
+[[ -f "$HOME/.config/zsh-abbr/user-abbreviations" ]] || cp "$INSTALL_DIR/configs/abbreviations" "$HOME/.config/zsh-abbr/user-abbreviations"
 mkdir -p "$HOME/.zsh/completions"
 { command -v kubectl >/dev/null && kubectl completion zsh > "$HOME/.zsh/completions/_kubectl"; } || true
 { command -v helm >/dev/null && helm completion zsh > "$HOME/.zsh/completions/_helm"; } || true
