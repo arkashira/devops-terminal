@@ -88,6 +88,9 @@
 ## 🌐 Network toolkit (2026-09-01)
 | คำสั่ง | ทำอะไร |
 |---|---|
+| `warroom <ns>` | **เปิดห้องบัญชาการ incident**: k9s + stern + watch pods ใน tmux session เดียว |
+| `ailog <pod> <ns>` | เท log ให้ AI หา root cause + วิธีแก้ |
+| ใน tmux: `prefix p` | จอลอย 80% กลางจอ (floax) — เปิด/ซ่อนได้ งานค้างอยู่ |
 | `oops <ns>` | **สรุปความผิดปกติทั้ง namespace**: pod พัง + events + k8sgpt วิเคราะห์ ในคำสั่งเดียว |
 | `knet <ns>` | เปิด netshoot pod ใน cluster — dig/curl/tcpdump/iperf จากมุมมองข้างใน ออกแล้วลบตัวเอง |
 | `certcheck <domain>` | เช็ค cert: ออกโดยใคร หมดอายุเมื่อไหร่ |

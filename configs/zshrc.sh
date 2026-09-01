@@ -188,6 +188,31 @@ if command -v kiro-cli >/dev/null 2>&1; then
   alias fixdrop='killall kiro_cli_desktop 2>/dev/null; sleep 2; open -ga "Kiro CLI"; echo "restarted — open a new tab"'
 fi
 
+# warroom [ns] — ห้องบัญชาการ incident: k9s + stern + watch pods ในคำสั่งเดียว
+warroom() {
+  local ns=${1:-default} s="war-${1:-default}"
+  if tmux has-session -t "$s" 2>/dev/null; then
+    [[ -n $TMUX ]] && tmux switch-client -t "$s" || tmux attach -t "$s"; return
+  fi
+  tmux new-session -d -s "$s" -n cockpit "k9s -n $ns"
+  tmux split-window -h -t "$s:cockpit" "stern . -n $ns --tail 20"
+  tmux split-window -v -t "$s:cockpit.2" "viddy -n 5 kubectl get pods -n $ns"
+  tmux select-pane -t "$s:cockpit.1"
+  [[ -n $TMUX ]] && tmux switch-client -t "$s" || tmux attach -t "$s"
+}
+
+# ailog <pod-pattern> [ns] — ดึง log ส่งให้ AI หา root cause (ต้องมี kiro-cli + stern)
+if command -v kiro-cli >/dev/null 2>&1 && command -v stern >/dev/null 2>&1; then
+  ailog() {
+    local pattern=$1 ns=${2:-default}
+    [[ -z $pattern ]] && { echo "usage: ailog <pod-pattern> [namespace]"; return 1 }
+    local logs=$(stern "$pattern" -n "$ns" --no-follow --tail 60 2>/dev/null | tail -c 12000)
+    [[ -z $logs ]] && { echo "no logs for '$pattern' in ns '$ns'"; return 1 }
+    ask "Analyze these pod logs ('$pattern', ns $ns) — find errors/root cause and suggest a fix, concisely:
+$logs"
+  }
+fi
+
 # ---------- network toolkit ----------
 myip() {
   echo "local : $(ipconfig getifaddr en0 2>/dev/null || echo -)"
