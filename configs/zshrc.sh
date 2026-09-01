@@ -243,6 +243,22 @@ oops() {
 # ---------- termdoctor / termup / termsync — ระบบดูแลตัวเอง ----------
 [[ -f "$HOME/.zsh/term-maintenance.zsh" ]] && source "$HOME/.zsh/term-maintenance.zsh"
 
+# ---------- workflow accelerators ----------
+# zsh-abbr — พิม kgp เคาะ space → kubectl get pods (ดูทั้งหมด: abbr list)
+[[ -f "$HOME/.zsh/zsh-abbr/zsh-abbr.zsh" ]] && source "$HOME/.zsh/zsh-abbr/zsh-abbr.zsh"
+# forgit — git แบบ fzf: ga/glo/gd/gcb/grh/gss
+[[ -f "$BREW_PREFIX/share/forgit/forgit.plugin.zsh" ]] && source "$BREW_PREFIX/share/forgit/forgit.plugin.zsh"
+# dyff — kubectl diff แบบเข้าใจ YAML
+command -v dyff >/dev/null 2>&1 && export KUBECTL_EXTERNAL_DIFF="dyff between --omit-header --set-exit-code"
+killport() { lsof -ti tcp:$1 | xargs kill -9 2>/dev/null && echo "killed port $1" || echo "nothing on port $1" }
+alias serve='python3 -m http.server 8000'
+command -v atuin >/dev/null 2>&1 && alias topcmds='atuin stats'
+if command -v ntfy >/dev/null 2>&1; then
+  [[ -f "$HOME/.config/.ntfy-topic" ]] || openssl rand -hex 4 > "$HOME/.config/.ntfy-topic"
+  np() { ntfy publish "term-$(cat ~/.config/.ntfy-topic)" "${1:-done ✅}" >/dev/null && echo "📱 sent" }
+  alias nptopic='echo "term-$(cat ~/.config/.ntfy-topic)"'
+fi
+
 # ---------- QoL widgets ----------
 # Esc Esc = เติม/ถอด sudo หน้าคำสั่ง
 _toggle_sudo() {

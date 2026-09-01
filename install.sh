@@ -37,7 +37,7 @@ FORMULAS=(fzf fd bat eza zoxide atuin starship zsh-autosuggestions zsh-syntax-hi
   lnav fx jless xh trippy gping doggo hyperfine watchexec sops age mise just eksctl infracost sesh ntfy
   ripgrep dust duf procs tealdeer k8sgpt jwt-ui kdash gonzo
   grpcurl websocat bandwhich sd miller csvlens ouch crane kubeconform kor s5cmd steampipe onefetch fastfetch asciinema slides atac
-  nmap iperf3 socat ipcalc oha httpstat mtr chafa)
+  nmap iperf3 socat ipcalc oha httpstat mtr chafa forgit dyff)
 for f in "${FORMULAS[@]}"; do
   brew list "$f" >/dev/null 2>&1 || brew install "$f"
 done
