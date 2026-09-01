@@ -1,4 +1,4 @@
-# devops-terminal Ghostty config — SRE/DevSecOps edition
+# Ghostty config — SRE/DevSecOps edition (ทุกอย่าง GPU-native ไม่มีของหน่วง)
 # Cmd+↑/↓ กระโดดระหว่าง prompt | Cmd+D split ขวา | Cmd+Shift+D split ล่าง
 # Cmd+Alt+ลูกศร ย้าย split | Cmd+Shift+Enter zoom split | Cmd+K clear
 # เอกสารทุก option: ghostty +show-config --default --docs
@@ -11,37 +11,56 @@ window-height = 42
 window-width = 150
 window-padding-x = 6
 window-padding-y = 4
+# แถบ title รวมกับ tab bar — ได้พื้นที่จอเพิ่ม
 macos-titlebar-style = tabs
 background-opacity = 0.94
 background-blur-radius = 20
+# pane ที่ไม่ active หรี่ลงนิดหน่อย — รู้ทันทีว่า cursor อยู่ไหน (สำคัญเวลา split เยอะ)
 unfocused-split-opacity = 0.82
 mouse-hide-while-typing = true
 
 ### clipboard สาย ops
+# select แล้ว copy เลย (สไตล์ Linux/tmux) + paste ได้ด้วย middle-click ใน tmux
 copy-on-select = clipboard
 clipboard-trim-trailing-spaces = true
-# กันวางคำสั่งหลายบรรทัดโดยไม่ตั้งใจ (ของ copy จากเว็บอาจซ่อน \n มา)
+# กันวางคำสั่งหลายบรรทัดโดยไม่ตั้งใจ (มัลแวร์ชอบซ่อน \n ในของที่ copy จากเว็บ) — DevSecOps ต้องมี
 clipboard-paste-protection = true
 # ให้ tmux/ssh ไกลๆ copy กลับมาลง clipboard เครื่องเราได้ (OSC52)
 clipboard-read = allow
 clipboard-write = allow
 
 ### ความจุ/ความจำ
+# scrollback 50MB ต่อจอ — ไล่ log ยาวๆ ไม่หลุด (default แค่ 10MB)
 scrollback-limit = 50000000
+# จำ window/tab/split ทุกอย่างข้ามการปิดแอป
 window-save-state = always
 window-inherit-working-directory = true
 confirm-close-surface = true
 
 ### shell + ssh integration
 macos-option-as-alt = true
+# ssh-env/ssh-terminfo = ssh ไปเครื่องไหน TERM ไม่พัง + คุณสมบัติ prompt jump ตามไปด้วย
 shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
+# เลื่อนเมาส์ไป split ไหน focus ไปที่นั่น (ไม่ต้องคลิก)
 focus-follows-mouse = true
 
 ### keybinds
-# Quick Terminal — Cmd+` จากแอปไหนก็ได้ (ครั้งแรกต้องอนุญาต Accessibility)
+# Quick Terminal — Cmd+` จากแอปไหนก็ได้ terminal หล่นลงมา (ครั้งแรกต้องอนุญาต Accessibility)
 keybind = global:cmd+grave_accent=toggle_quick_terminal
+# เท scrollback ทั้งหมดลงไฟล์แล้วเปิดดู
 keybind = cmd+shift+j=write_scrollback_file:open
+# Shift+Enter = ขึ้นบรรทัดใหม่โดยไม่ส่งคำสั่ง (จำเป็นกับ claude/kiro chat)
 keybind = shift+enter=text:\n
 
-# cursor มีแสง trail ตอนเลื่อน (GPU ล้วน) — ไม่ชอบก็คอมเมนต์บรรทัดนี้
-custom-shader = ~/.config/ghostty/shaders/cursor-trail.glsl
+# ไอคอนแอป Ghostty แบบ holographic 😎
+macos-icon = holographic
+
+# ✨ cursor shader — สลับได้ตามอารมณ์ (เปิดได้ทีละตัว แก้แล้วกด Cmd+Shift+, reload)
+# ตัวจัดหนัก: ระเบิดแสงตาม cursor
+custom-shader = ~/.config/ghostty/shaders/cursor_blaze.glsl
+# ทางเลือก:
+# custom-shader = ~/.config/ghostty/shaders/cursor_lightning.glsl   # สายฟ้าฟาด
+# custom-shader = ~/.config/ghostty/shaders/fireworks.glsl          # พลุ (animate ตลอด กินแบตกว่า)
+# custom-shader = ~/.config/ghostty/shaders/bloom.glsl              # ตัวหนังสือเรืองแสง
+# custom-shader = ~/.config/ghostty/shaders/bettercrt.glsl          # จอ CRT ยุค 80s
+# custom-shader = ~/.config/ghostty/shaders/cursor-trail.glsl       # trail นุ่มๆ (ตัวเดิม)

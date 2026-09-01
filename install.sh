@@ -115,7 +115,10 @@ log "วาง config files..."
 backup_link "$INSTALL_DIR/configs/tmux.conf"        "$HOME/.tmux.conf"
 backup_link "$INSTALL_DIR/configs/starship.toml"    "$HOME/.config/starship.toml"
 backup_link "$INSTALL_DIR/configs/ghostty-config"   "$HOME/.config/ghostty/config"
-backup_link "$INSTALL_DIR/shaders/cursor-trail.glsl" "$HOME/.config/ghostty/shaders/cursor-trail.glsl"
+mkdir -p "$HOME/.config/ghostty/shaders"
+cp "$INSTALL_DIR"/shaders/*.glsl "$HOME/.config/ghostty/shaders/" 2>/dev/null || true
+backup_link "$INSTALL_DIR/configs/eza-theme.yml" "$HOME/.config/eza/theme.yml"
+backup_link "$INSTALL_DIR/configs/fastfetch.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 
 CHEAT_DIR="$(navi info cheats-path 2>/dev/null || echo "$HOME/.local/share/navi/cheats")"
 mkdir -p "$CHEAT_DIR"
