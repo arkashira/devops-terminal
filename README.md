@@ -6,6 +6,8 @@
 
 ![demo](assets/demo.gif)
 
+> **EN TL;DR** — A complete, free terminal for Developers / SRE / DevOps that makes paid terminals blush: ~130 curated tools, 4 layers of AI (`ask`, `ailog`, k8sgpt, MCP), fzf everywhere (Tab dropdown + command palette), full Catppuccin theming w/ powerline + transient prompt, k8s first-aid one-liners (`restarts`, `rollback`, `warroom`, `preflight`), live cluster-health pill on tmux, chaos trainer locked to local lab, self-maintaining (`termdoctor`/`termup`/`termsync` w/ secret-leak guard), 0.07s startup, one-command install. No login. No telemetry. Yours forever.
+
 ```sh
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/arkashira/devops-terminal/main/install.sh)"
 ```

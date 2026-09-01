@@ -116,3 +116,24 @@ chaos-pod() {
   echo "💥 ฆ่า: $pod (ns: $ns) — จับเวลาหาสาเหตุ+กู้เลย! (ใบ้: restarts, oops, kubectl describe)"
   kubectl delete pod "$pod" -n "$ns" --wait=false
 }
+
+# lintall [dir] — ตรวจคุณภาพทุกอย่างใน dir เองตามชนิดไฟล์ที่เจอ (shell/yaml/k8s/terraform)
+lintall() {
+  local t=${1:-.} ran=0
+  if command -v shellcheck >/dev/null 2>&1 && fd -e sh -e bash . "$t" 2>/dev/null | head -1 | command grep -q .; then
+    echo "═══ shellcheck (shell scripts) ═══"; fd -e sh -e bash . "$t" -x shellcheck {} 2>/dev/null | head -60; ran=1
+  fi
+  if command -v yamllint >/dev/null 2>&1 && fd -e yaml -e yml . "$t" 2>/dev/null | head -1 | command grep -q .; then
+    echo "═══ yamllint ═══"; yamllint -d relaxed "$t" 2>/dev/null | head -40; ran=1
+  fi
+  if command -v kube-linter >/dev/null 2>&1 && rg -l --glob '*.y*ml' -m1 '^kind:' "$t" >/dev/null 2>&1; then
+    echo "═══ kube-linter (k8s best practices) ═══"; kube-linter lint "$t" 2>/dev/null | tail -25; ran=1
+  fi
+  if fd -e tf . "$t" 2>/dev/null | head -1 | command grep -q .; then
+    echo "═══ terraform fmt+validate ═══"; terraform fmt -check -recursive "$t" 2>/dev/null; (cd "$t" && terraform validate 2>/dev/null); ran=1
+  fi
+  if command -v gitleaks >/dev/null 2>&1; then
+    echo "═══ gitleaks (secret หลุด?) ═══"; gitleaks detect --no-git -s "$t" --no-banner 2>&1 | tail -5; ran=1
+  fi
+  (( ran )) && echo "✅ lintall เสร็จ" || echo "ไม่เจอไฟล์ที่ตรวจได้ใน $t"
+}

@@ -65,7 +65,15 @@ termsync() {
   cp ~/.config/ghostty/config "$R/configs/ghostty-config" 2>/dev/null
   cp ~/.config/fastfetch/config.jsonc "$R/configs/fastfetch.jsonc" 2>/dev/null
   cp "$HOME/Library/Application Support/k9s/plugins.yaml" "$R/configs/k9s-plugins.yaml" 2>/dev/null
-  # 🛡 ด่านความปลอดภัย: ห้ามข้อมูลบริษัท/ความลับหลุดขึ้น public repo
+  # 🛡 ด่าน 1: gitleaks สแกน secret จริงจัง (ถ้ามี)
+  if command -v gitleaks >/dev/null 2>&1; then
+    if ! gitleaks detect --no-git -s "$R" --no-banner >/dev/null 2>&1; then
+      echo "🚨 gitleaks เจอ secret ใน repo — ยกเลิกการ push:"
+      gitleaks detect --no-git -s "$R" --no-banner 2>&1 | tail -8
+      return 1
+    fi
+  fi
+  # 🛡 ด่าน 2: ห้ามข้อมูลบริษัท/ความลับหลุดขึ้น public repo
   local leaks=$(git -C "$R" diff --cached --diff-filter=ACM 2>/dev/null; git -C "$R" diff 2>/dev/null | command grep -iE "471157221567|498952158610|amaze|ascend|amzn|tbit|AKIA[A-Z0-9]{16}|-----BEGIN" | head -5)
   if [[ -n $leaks ]]; then
     echo "🚨 เจอข้อมูลที่อาจเป็นของบริษัท/ความลับใน diff — ยกเลิกการ push:"
