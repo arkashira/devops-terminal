@@ -242,6 +242,8 @@ oops() {
 
 # ---------- termdoctor / termup / termsync — ระบบดูแลตัวเอง ----------
 [[ -f "$HOME/.zsh/term-maintenance.zsh" ]] && source "$HOME/.zsh/term-maintenance.zsh"
+# SRE First-Aid Kit
+[[ -f "$HOME/.zsh/sre-kit.zsh" ]] && source "$HOME/.zsh/sre-kit.zsh"
 
 # ---------- workflow accelerators ----------
 # zsh-abbr — พิม kgp เคาะ space → kubectl get pods (ดูทั้งหมด: abbr list)

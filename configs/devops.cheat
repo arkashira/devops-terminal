@@ -78,3 +78,32 @@ trivy k8s --report summary
 
 # k9s popup
 สั่งใน tmux: prefix + k
+
+% incident playbooks (กู้ไฟ)
+# CrashLoopBackOff → ดู log รอบที่แล้ว + สาเหตุ
+kubectl logs <pod> -n <namespace> --previous --tail=50; kubectl describe pod <pod> -n <namespace> | tail -15
+
+# ImagePullBackOff → เช็ค image/secret ที่ผิด
+kubectl describe pod <pod> -n <namespace> | grep -B2 -A5 -iE "failed|pull"
+
+# OOMKilled → เทียบ limit กับที่ใช้จริง
+kubectl get pod <pod> -n <namespace> -o jsonpath='{.spec.containers[*].resources}'; kubectl top pod <pod> -n <namespace>
+
+# Node NotReady → ดู conditions (disk/memory pressure, kubelet)
+kubectl describe node <node> | grep -A10 "Conditions:"
+
+# DNS ในคลัสเตอร์เพี้ยน → ยิงจากข้างใน
+knet
+
+# Service ไม่วิ่ง → เช็ค endpoints มี pod ไหม
+kubectl get endpoints <service> -n <namespace>
+
+# PVC มีปัญหา → หาตัวไม่ Bound
+kubectl get pvc -A | grep -v Bound
+
+# rollback ด่วน + รอจนเสร็จ
+rollback <deployment> <namespace>
+
+# ดูว่า deploy ล่าสุดเปลี่ยนอะไร
+kubectl rollout history deploy/<deployment> -n <namespace>
+

@@ -127,6 +127,7 @@ backup_link "$INSTALL_DIR/configs/fastfetch.jsonc" "$HOME/.config/fastfetch/conf
 
 mkdir -p "$HOME/.zsh"
 ln -sfn "$INSTALL_DIR/configs/term-maintenance.zsh" "$HOME/.zsh/term-maintenance.zsh"
+ln -sfn "$INSTALL_DIR/configs/sre-kit.zsh" "$HOME/.zsh/sre-kit.zsh"
 mkdir -p "$HOME/.zsh/bin"
 ln -sfn "$INSTALL_DIR/configs/k8s-health.sh" "$HOME/.zsh/bin/k8s-health.sh"
 CHEAT_DIR="$(navi info cheats-path 2>/dev/null || echo "$HOME/.local/share/navi/cheats")"
