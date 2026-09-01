@@ -38,7 +38,7 @@ FORMULAS=(fzf fd bat eza zoxide atuin starship zsh-autosuggestions zsh-syntax-hi
   ripgrep dust duf procs tealdeer k8sgpt jwt-ui kdash gonzo
   grpcurl websocat bandwhich sd miller csvlens ouch crane kubeconform kor s5cmd steampipe onefetch fastfetch asciinema slides atac
   nmap iperf3 socat ipcalc oha httpstat mtr chafa forgit dyff gum carapace vhs
-  glab k3d git-absorb difftastic jnv mprocs pueue hurl act cosign awscurl rclone tokei grex hexyl television)
+  glab k3d git-absorb difftastic jnv mprocs pueue hurl act cosign awscurl rclone tokei grex hexyl television k6 kube-linter)
 for f in "${FORMULAS[@]}"; do
   brew list "$f" >/dev/null 2>&1 || brew install "$f"
 done

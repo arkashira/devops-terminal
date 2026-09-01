@@ -90,3 +90,29 @@ tour() {
     echo; read -k1 "?กดปุ่มใดๆ เพื่อกลับเมนู..."
   done
 }
+
+# fargo — เลือก ArgoCD app จาก dropdown → status/diff/sync/history (ต้อง argocd login ก่อน)
+fargo() {
+  command -v argocd >/dev/null 2>&1 || { echo "ไม่มี argocd CLI"; return 1 }
+  local app=$(argocd app list -o name 2>/dev/null | fzf --prompt='argo app > ')
+  [[ -z $app ]] && return
+  local act=$(printf "status\ndiff\nsync\nhistory\nlogs" | fzf --prompt="$app → " --height=~30%)
+  case $act in
+    status)  argocd app get "$app" ;;
+    diff)    argocd app diff "$app" ;;
+    sync)    gum confirm "⚠️ sync $app จริงไหม?" && argocd app sync "$app" ;;
+    history) argocd app history "$app" ;;
+    logs)    argocd app logs "$app" --tail 100 ;;
+  esac
+}
+
+# chaos-pod [ns] — ฆ่า pod สุ่ม 1 ตัวไว้ซ้อมกู้ incident — ล็อคให้ใช้ได้เฉพาะ lab (k3d) เท่านั้น
+chaos-pod() {
+  local ctx=$(kubectl config current-context 2>/dev/null)
+  [[ $ctx != k3d-* ]] && { echo "🛑 ใช้ได้เฉพาะ context k3d-* (lab-up ก่อน) — ตอนนี้อยู่ '$ctx' ไม่ยอมยิงของจริงเด็ดขาด"; return 1 }
+  local ns=${1:-default}
+  local pod=$(kubectl get pods -n "$ns" --no-headers 2>/dev/null | awk 'BEGIN{srand()} {a[NR]=$1} END{if(NR)print a[int(rand()*NR)+1]}')
+  [[ -z $pod ]] && { echo "ไม่มี pod ใน ns $ns"; return 1 }
+  echo "💥 ฆ่า: $pod (ns: $ns) — จับเวลาหาสาเหตุ+กู้เลย! (ใบ้: restarts, oops, kubectl describe)"
+  kubectl delete pod "$pod" -n "$ns" --wait=false
+}
