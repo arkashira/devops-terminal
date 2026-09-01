@@ -37,7 +37,7 @@ FORMULAS=(fzf fd bat eza zoxide atuin starship zsh-autosuggestions zsh-syntax-hi
   lnav fx jless xh trippy gping doggo hyperfine watchexec sops age mise just eksctl infracost sesh ntfy
   ripgrep dust duf procs tealdeer k8sgpt jwt-ui kdash gonzo
   grpcurl websocat bandwhich sd miller csvlens ouch crane kubeconform kor s5cmd steampipe onefetch fastfetch asciinema slides atac
-  nmap iperf3 socat ipcalc oha httpstat mtr)
+  nmap iperf3 socat ipcalc oha httpstat mtr chafa)
 for f in "${FORMULAS[@]}"; do
   brew list "$f" >/dev/null 2>&1 || brew install "$f"
 done
@@ -122,6 +122,8 @@ backup_link "$INSTALL_DIR/configs/fastfetch.jsonc" "$HOME/.config/fastfetch/conf
 
 mkdir -p "$HOME/.zsh"
 ln -sfn "$INSTALL_DIR/configs/term-maintenance.zsh" "$HOME/.zsh/term-maintenance.zsh"
+mkdir -p "$HOME/.zsh/bin"
+ln -sfn "$INSTALL_DIR/configs/k8s-health.sh" "$HOME/.zsh/bin/k8s-health.sh"
 CHEAT_DIR="$(navi info cheats-path 2>/dev/null || echo "$HOME/.local/share/navi/cheats")"
 mkdir -p "$CHEAT_DIR"
 ln -sfn "$INSTALL_DIR/configs/devops.cheat" "$CHEAT_DIR/devops.cheat"
