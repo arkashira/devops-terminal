@@ -120,7 +120,6 @@ chaos-pod() {
 # fdb [ns] — เลือก DB pod จาก dropdown → เปิด usql (psql-style ใช้ได้กับ pg/mysql/mssql/...) ผ่าน exec
 # รองรับ postgres/mysql อัตโนมัติจากชื่อ image; ถามรหัสผ่าน/ดึงจาก env ของ pod เอง
 fdb() {
-  command -v usql >/dev/null 2>&1 || { echo "ไม่มี usql"; return 1 }
   local line=$(kubectl get pods ${1:+-n $1} --no-headers 2>/dev/null \
     | rg -i 'postgres|mysql|mariadb|mssql|clickhouse' \
     | fzf --prompt='db pod > ' --header='เลือก DB pod')
