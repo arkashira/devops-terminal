@@ -8,6 +8,8 @@
 | `Ctrl+Z` | สลับเข้า/ออกโปรแกรมที่พักไว้ — กดใน vim/k9s เพื่อพัก กดอีกทีกลับ |
 | พิมคำสั่งผิด | zsh ถาม `correct 'kubctl' to 'kubectl'? [ynae]` — y=แก้ให้ |
 | `→` หรือ `Ctrl+E` / `Alt+F` | รับ ghost text ทั้งหมด / ทีละคำ |
+| `reload` (หรือ `rl`) | โหลด config ใหม่แบบปลอดภัย — **อย่าใช้ `source ~/.zshrc`** จะทำ ZLE พัง |
+| พิม `~` หรือ path เฉยๆ | cd ไปเลย ไม่ต้องพิม cd (autocd) |
 | `keys` | เปิด cheat sheet นี้ |
 
 ## 🤖 AI (ต้องมี kiro-cli + login)

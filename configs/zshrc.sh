@@ -357,6 +357,15 @@ if command -v yazi >/dev/null 2>&1; then
 fi
 command -v lazygit >/dev/null 2>&1 && alias lg='lazygit'
 
+
+# ⚠️ อย่าใช้ `source ~/.zshrc` ในแท็บที่เปิดอยู่ — zsh-syntax-highlighting/fzf-tab/carapace
+# ลงทะเบียน ZLE widget ซ้ำแล้วพัง (พิมเพี้ยน/completion หลอน) ใช้ `reload` แทน = เปิด shell ใหม่สดๆ
+reload() { exec zsh }
+alias rl='exec zsh'
+
+# พิม ~ หรือ path เฉยๆ แล้ว Enter = cd ไปเลย (ไม่ต้องพิม cd)
+setopt autocd
+
 # ---------- autocorrect ----------
 setopt correct
 CORRECT_IGNORE='[._]*'
